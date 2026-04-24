@@ -246,6 +246,7 @@
 
     // Position no button within viewport on load
     noBtn.style.position = 'fixed';
+    noBtn.style.zIndex = '2';
     moveNoBtn();
 
     noBtn.addEventListener('mouseover', moveNoBtn);
