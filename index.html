@@ -226,10 +226,14 @@
       const pad = 10;
       const w = noBtn.offsetWidth;
       const h = noBtn.offsetHeight;
-      const vw = document.documentElement.clientWidth;
-      const vh = document.documentElement.clientHeight;
-      noBtn.style.left = (pad + Math.random() * Math.max(0, vw - w - 2 * pad)) + 'px';
-      noBtn.style.top  = (pad + Math.random() * Math.max(0, vh - h - 2 * pad)) + 'px';
+      const vp = window.visualViewport || {
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
+        offsetLeft: 0,
+        offsetTop: 0
+      };
+      noBtn.style.left = (vp.offsetLeft + pad + Math.random() * Math.max(0, vp.width  - w - 2 * pad)) + 'px';
+      noBtn.style.top  = (vp.offsetTop  + pad + Math.random() * Math.max(0, vp.height - h - 2 * pad)) + 'px';
     }
 
     function runAway() {
@@ -250,8 +254,9 @@
     moveNoBtn();
 
     noBtn.addEventListener('mouseover', moveNoBtn);
-    noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); moveNoBtn(); }, { passive: false });
-    window.addEventListener('resize', moveNoBtn);
+    noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); runAway(); }, { passive: false });
+    noBtn.addEventListener('touchend', function(e) { e.preventDefault(); }, { passive: false });
+    (window.visualViewport || window).addEventListener('resize', moveNoBtn);
 
     function sayYes() {
       document.getElementById('btn-area').style.display = 'none';
