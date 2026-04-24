@@ -123,15 +123,15 @@
     }
 
     #no-btn {
-      background: #f0e0e8;
-      color: #9b5e7a;
+      background: #f5f5f5;
+      color: #666;
+      border: 2px solid #ccc;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      position: fixed;
-      transition: opacity 0.4s;
     }
 
     #no-btn:hover {
-      background: #e8d0dc;
+      background: #e8e8e8;
+      border-color: #aaa;
     }
 
     .response {
@@ -240,6 +240,10 @@
       subtitle.textContent = msg;
 
     }
+
+    // Position no button within viewport on load
+    noBtn.style.position = 'fixed';
+    moveNoBtn();
 
     noBtn.addEventListener('mouseover', moveNoBtn);
 
