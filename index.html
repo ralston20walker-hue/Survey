@@ -224,16 +224,12 @@
 
     function moveNoBtn() {
       const pad = 10;
-      const w = noBtn.offsetWidth;
-      const h = noBtn.offsetHeight;
-      const vp = window.visualViewport || {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-        offsetLeft: 0,
-        offsetTop: 0
-      };
-      noBtn.style.left = (vp.offsetLeft + pad + Math.random() * Math.max(0, vp.width  - w - 2 * pad)) + 'px';
-      noBtn.style.top  = (vp.offsetTop  + pad + Math.random() * Math.max(0, vp.height - h - 2 * pad)) + 'px';
+      const w = noBtn.offsetWidth || 100;
+      const h = noBtn.offsetHeight || 44;
+      const vpW = window.innerWidth;
+      const vpH = window.innerHeight;
+      noBtn.style.left = (pad + Math.random() * Math.max(0, vpW - w - 2 * pad)) + 'px';
+      noBtn.style.top  = (pad + Math.random() * Math.max(0, vpH - h - 2 * pad)) + 'px';
     }
 
     function runAway() {
@@ -256,7 +252,7 @@
     noBtn.addEventListener('mouseover', moveNoBtn);
     noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); runAway(); }, { passive: false });
     noBtn.addEventListener('touchend', function(e) { e.preventDefault(); }, { passive: false });
-    (window.visualViewport || window).addEventListener('resize', moveNoBtn);
+    window.addEventListener('resize', moveNoBtn);
 
     function sayYes() {
       document.getElementById('btn-area').style.display = 'none';
