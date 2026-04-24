@@ -226,10 +226,10 @@
       const pad = 10;
       const w = noBtn.offsetWidth;
       const h = noBtn.offsetHeight;
-      const maxLeft = Math.max(pad, window.innerWidth  - w - pad);
-      const maxTop  = Math.max(pad, window.innerHeight - h - pad);
-      noBtn.style.left = (pad + Math.random() * (maxLeft - pad)) + 'px';
-      noBtn.style.top  = (pad + Math.random() * (maxTop  - pad)) + 'px';
+      const vw = document.documentElement.clientWidth;
+      const vh = document.documentElement.clientHeight;
+      noBtn.style.left = (pad + Math.random() * Math.max(0, vw - w - 2 * pad)) + 'px';
+      noBtn.style.top  = (pad + Math.random() * Math.max(0, vh - h - 2 * pad)) + 'px';
     }
 
     function runAway() {
