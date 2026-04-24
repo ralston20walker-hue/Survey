@@ -126,7 +126,8 @@
       background: #f0e0e8;
       color: #9b5e7a;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      position: absolute;
+      position: fixed;
+      transition: opacity 0.4s;
     }
 
     #no-btn:hover {
@@ -174,6 +175,7 @@
       <span class="big-emoji">🎉💖🎉</span>
       <h2>Yay! It's a date!</h2>
       <p>I can't wait to see you! 🌹✨</p>
+      <p id="date-idea" style="margin-top:0.5rem; font-style:italic; color:#b5548a;"></p>
     </div>
   </div>
 
@@ -194,43 +196,66 @@
 
     // "No" button escapes the cursor
     const noBtn = document.getElementById('no-btn');
+    const yesBtn = document.getElementById('yes-btn');
+    const subtitle = document.querySelector('.subtitle');
     let noClickCount = 0;
+
+    const pleadingMessages = [
+      "I promise it'll be the most fun you've ever had! 🌸",
+      "Pretty please? 🥺 I'll buy you ice cream!",
+      "Come on… you know you want to! 🍦💕",
+      "The 'No' button is getting tired of running 😅",
+      "Your heart is saying yes, I can tell 💓",
+      "Okay but like… what if it's amazing though? ✨",
+    ];
+
+    const dateIdeas = [
+      "How about a picnic under the stars? 🌟🧺",
+      "Coffee, a walk, and getting lost together? ☕🌿",
+      "Dinner + a surprise dessert spot? 🍕🍰",
+      "Movie marathon with blankets and snacks? 🎬🍿",
+      "Sunset stroll by the water? 🌅🌊",
+    ];
+
+    function moveNoBtn() {
+      const maxX = window.innerWidth  - noBtn.offsetWidth  - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      noBtn.style.left = Math.max(10, Math.random() * maxX) + 'px';
+      noBtn.style.top  = Math.max(10, Math.random() * maxY) + 'px';
+    }
 
     function runAway() {
       noClickCount++;
-      const card = document.getElementById('card');
-      const cardRect = card.getBoundingClientRect();
-      const maxX = window.innerWidth  - noBtn.offsetWidth  - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noBtn.style.left = x + 'px';
-      noBtn.style.top  = y + 'px';
-      if (noClickCount >= 3) {
+      moveNoBtn();
+      // Grow the Yes button (max scale ~1.6)
+      const scale = Math.min(1 + noClickCount * 0.15, 1.6);
+      yesBtn.style.transform = `scale(${scale})`;
+      // Update subtitle with a pleading message
+      const msg = pleadingMessages[Math.min(noClickCount, pleadingMessages.length - 1)];
+      subtitle.textContent = msg;
+      if (noClickCount >= 5) {
         noBtn.style.opacity = '0';
         noBtn.style.pointerEvents = 'none';
       }
     }
 
-    noBtn.addEventListener('mouseover', function() {
-      const maxX = window.innerWidth  - noBtn.offsetWidth  - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-      noBtn.style.left = Math.random() * maxX + 'px';
-      noBtn.style.top  = Math.random() * maxY + 'px';
-    });
+    noBtn.addEventListener('mouseover', moveNoBtn);
 
     function sayYes() {
       document.getElementById('btn-area').style.display = 'none';
       const res = document.getElementById('yes-response');
       res.style.display = 'flex';
+      // Show a random date idea
+      const idea = dateIdeas[Math.floor(Math.random() * dateIdeas.length)];
+      document.getElementById('date-idea').textContent = idea;
       // burst hearts
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 25; i++) {
         const el = document.createElement('span');
         el.className = 'heart-float';
-        el.textContent = '💖';
+        el.textContent = ['💖','💕','🌸','✨','🎉'][Math.floor(Math.random() * 5)];
         el.style.left = Math.random() * 100 + 'vw';
         el.style.animationDuration = (2 + Math.random() * 3) + 's';
-        el.style.animationDelay = (Math.random() * 0.5) + 's';
+        el.style.animationDelay = (Math.random() * 0.6) + 's';
         hbg.appendChild(el);
       }
     }
