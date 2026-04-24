@@ -35,7 +35,7 @@
     <script>
         function moveButton() {
             const btn = document.getElementById('noBtn');
-            // Calculates a random spot on the screen
+            // Calculate a random spot on the screen
             const x = Math.random() * (window.innerWidth - btn.offsetWidth);
             const y = Math.random() * (window.innerHeight - btn.offsetHeight);
             
@@ -44,7 +44,7 @@
         }
 
         function celebrate() {
-            document.getElementById('question').innerHTML = "Yay! See you then! 😍";
+            document.getElementById('question').textContent = "Yay! See you then! 😍";
             document.querySelector('.buttons').style.display = 'none';
         }
     </script>
