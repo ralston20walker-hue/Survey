@@ -250,7 +250,8 @@
     moveNoBtn();
 
     noBtn.addEventListener('mouseover', moveNoBtn);
-    noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); moveNoBtn(); }, { passive: false });
+    noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); runAway(); }, { passive: false });
+    noBtn.addEventListener('touchend', function(e) { e.preventDefault(); }, { passive: false });
     window.addEventListener('resize', moveNoBtn);
 
     function sayYes() {
