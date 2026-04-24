@@ -223,6 +223,10 @@
     ];
 
     function moveNoBtn() {
+      if (noBtn.style.position !== 'fixed') {
+        noBtn.style.position = 'fixed';
+        noBtn.style.zIndex = '2';
+      }
       const pad = 10;
       const w = noBtn.offsetWidth || 100;
       const h = noBtn.offsetHeight || 44;
@@ -244,18 +248,16 @@
 
     }
 
-    // Position no button within viewport on load
-    noBtn.style.position = 'fixed';
-    noBtn.style.zIndex = '2';
-    moveNoBtn();
-
     noBtn.addEventListener('mouseover', moveNoBtn);
     noBtn.addEventListener('touchstart', function(e) { e.preventDefault(); runAway(); }, { passive: false });
     noBtn.addEventListener('touchend', function(e) { e.preventDefault(); }, { passive: false });
-    window.addEventListener('resize', moveNoBtn);
+    window.addEventListener('resize', function() {
+      if (noBtn.style.position === 'fixed') moveNoBtn();
+    });
 
     function sayYes() {
       document.getElementById('btn-area').style.display = 'none';
+      noBtn.style.display = 'none';
       const res = document.getElementById('yes-response');
       res.style.display = 'flex';
       // burst hearts
